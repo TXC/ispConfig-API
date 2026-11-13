@@ -25,17 +25,28 @@
     "automerge": true,
     "automergeType": "pr",
     "automergeSchedule": [
-      "schedule:daily"
+      "* 0-3 * * *"
     ]
   },
   "lockFileMaintenance": {
     "description": "Refresh transitive deps in the lockfile once a week.",
     "enabled": true,
     "schedule": [
-      "schedule:earlyMondays"
+      "* 0-3 * * 1"
     ]
   },
   "packageRules": [
+    {
+      "description": "Other: Collapse non-major dependency updates into one rolling PR",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "groupName": "Other dependencies",
+      "groupSlug": "other-dependencies"
+    },
     {
       "description": "JavaScript: Collapse non-major dependency updates into one rolling PR.",
       "matchCategories": ["js"],
@@ -112,17 +123,6 @@
       ],
       "groupName": "Go dependencies",
       "groupSlug": "go-dependencies"
-    },
-    {
-      "description": "Other: Collapse non-major dependency updates into one rolling PR",
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
-      "groupName": "Other dependencies",
-      "groupSlug": "other-dependencies"
     },
     {
       "description": "Collapse all GitHub Actions bumps into a single PR and pin them to commit SHAs.",
